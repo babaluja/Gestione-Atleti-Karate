@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestione Atleti Karate</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #f0f0f0, #ffffff);
+      padding: 2rem;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #b30000;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    section {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+
+    form input, form select, form button {
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      flex: 1 1 200px;
+    }
+
+    form button {
+      background-color: #b30000;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    form button:hover {
+      background-color: #800000;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #f7f7f7;
+      color: #b30000;
+    }
+
+    #guadagnoTotale {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #008000;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gestione Atleti di Karate</h1>
+
+  <!-- Form per inserimento atleta -->
+  <section>
+    <h2>Scheda Personale Atleta</h2>
+    <form id="atletaForm">
+      <input type="text" id="nome" placeholder="Nome" required />
+      <input type="text" id="cognome" placeholder="Cognome" required />
+      <input type="date" id="nascita" placeholder="Data di Nascita" required />
+      <input type="text" id="luogoNascita" placeholder="Luogo di Nascita" required />
+      <input type="text" id="codiceFiscale" placeholder="Codice Fiscale" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <select id="cintura" required>
+        <option value="">Seleziona cintura</option>
+        <option value="Bianca">Bianca</option>
+        <option value="Gialla">Gialla</option>
+        <option value="Arancione">Arancione</option>
+        <option value="Verde">Verde</option>
+        <option value="Blu">Blu</option>
+        <option value="Marrone">Marrone</option>
+        <option value="Nera 1° Dan">Nera 1° Dan</option>
+        <option value="Nera 2° Dan">Nera 2° Dan</option>
+        <option value="Nera 3° Dan">Nera 3° Dan</option>
+        <option value="Nera 4° Dan">Nera 4° Dan</option>
+        <option value="Nera 5° Dan">Nera 5° Dan</option>
+      </select>
+      <input type="date" id="dataEsame" placeholder="Data ultimo esame" required />
+      <select id="pagamento" required>
+        <option value="">Pagamento mensile (€)</option>
+        <option value="10">10,00 €</option>
+        <option value="15">15,00 €</option>
+        <option value="20">20,00 €</option>
+        <option value="25">25,00 €</option>
+        <option value="30">30,00 €</option>
+        <option value="35">35,00 €</option>
+        <option value="40">40,00 €</option>
+        <option value="45">45,00 €</option>
+        <option value="50">50,00 €</option>
+      </select>
+      <button type="submit">Aggiungi</button>
+    </form>
+  </section>
+
+  <!-- Tabella atleti -->
+  <section>
+    <h2>Lista Atleti</h2>
+    <table id="tabellaAtleti">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Cognome</th>
+          <th>Pagamento (€)</th>
+        </tr>
+      </thead>
+      <tbody id="corpoTabella"></tbody>
+    </table>
+  </section>
+
+  <!-- Guadagno Mensile -->
+  <section>
+    <h2>Guadagno Totale del Mese: <span id="guadagnoTotale">0</span> €</h2>
+  </section>
+
+  <script>
+    const form = document.getElementById("atletaForm");
+    const tabella = document.getElementById("corpoTabella");
+    const guadagnoTotale = document.getElementById("guadagnoTotale");
+    let totale = 0;
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const nome = document.getElementById("nome").value;
+      const cognome = document.getElementById("cognome").value;
+      const pagamento = parseFloat(document.getElementById("pagamento").value);
+
+      const riga = document.createElement("tr");
+      riga.innerHTML = `
+        <td>${nome}</td>
+        <td>${cognome}</td>
+        <td>${pagamento.toFixed(2)}</td>
+      `;
+
+      tabella.appendChild(riga);
+
+      totale += pagamento;
+      guadagnoTotale.textContent = totale.toFixed(2);
+
+      form.reset();
+    });
+  </script>
+</body>
+</html>
+
